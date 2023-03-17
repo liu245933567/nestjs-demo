@@ -13,7 +13,7 @@ export class AppController {
   @Get('test')
   async geProductList() {
     const data = await this.appService.productList({
-      prodName: 'test1',
+      prodName: 'test1'
     });
     if (data) {
       return JSON.stringify(data);
