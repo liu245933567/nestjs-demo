@@ -7,7 +7,7 @@ import { ProductListReq, ResponseTpl } from './types';
 @Injectable()
 export class AppService {
   constructor(
-    private readonly httpService: HttpService, // private readonly logger: LoggerService,
+    private readonly httpService: HttpService // private readonly logger: LoggerService,
   ) {}
 
   private readonly logger = new Logger(AppService.name);
@@ -22,7 +22,7 @@ export class AppService {
   async requestApifox<Content = object>(
     path: string,
     param?: object,
-    config?: AxiosRequestConfig,
+    config?: AxiosRequestConfig
   ) {
     const fullPath = `https://mock.apifox.cn/m1/1368041-0-default${path}`;
 
@@ -31,18 +31,18 @@ export class AppService {
         .post<ResponseTpl<Content>>(fullPath, param, {
           ...config,
           headers: {
-            apifoxToken: 'N4X1ahcnI1CBQGu37Rc2C9qGVgbsIDRj',
-          },
+            apifoxToken: 'N4X1ahcnI1CBQGu37Rc2C9qGVgbsIDRj'
+          }
         })
         .pipe(
           catchError((error: AxiosError) => {
             this.logger.error(fullPath, error.message);
             return of({
               data: null as ResponseTpl<Content> | null,
-              error,
+              error
             });
-          }),
-        ),
+          })
+        )
     );
 
     return data;
@@ -62,33 +62,33 @@ export class AppService {
    * 同时获取产品列表
    */
   async syncGetList() {
-    const list = [...new Array(500)].map(() =>
+    // const list = [...new Array(500)].map(() =>
+    //   this.productList({
+    //     prodName: 'test1'
+    //   })
+    // );
+
+    const list = [
       this.productList({
-        prodName: 'test1',
+        prodName: 'test1'
       }),
-    );
 
-    // const list = [
-    //   this.productList({
-    //     prodName: 'test1',
-    //   }),
+      // this.productList({
+      //   prodName: '长时间未响应'
+      // }),
 
-    //   this.productList({
-    //     prodName: '长时间未响应',
-    //   }),
+      this.productList({
+        prodName: 'test1'
+      }),
 
-    //   this.productList({
-    //     prodName: 'test1',
-    //   }),
+      this.productList({
+        prodName: 'test1'
+      }),
 
-    //   this.productList({
-    //     prodName: 'test1',
-    //   }),
-
-    //   this.productList({
-    //     prodName: 'test1',
-    //   }),
-    // ];
+      this.productList({
+        prodName: 'test1'
+      })
+    ];
 
     const result = await Promise.all(list);
 
